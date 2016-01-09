@@ -6,27 +6,17 @@ This is a spider basd on [Scrapy](https://github.com/scrapy/scrapy) to crawl som
 - time:实际举办时间
 - date_sort:处理后的用于排序的日期时间
 - location:举办地点
+- location_id:匹配地点 id（处理经纬度及地图标注）　
 - academy:学院名
 - type:讲座类型
 - html_content:实际html代码，用于移动端显示
 
+##Location List
+
 ##Create Table SQL
-
-``
-  CREATE TABLE 'academic' 
-    ('html_content' MEDIUMTEXT NULL ,  
-    'time' VARCHAR(100) NOT NULL ,  
-    'aca_id' INT UNSIGNED NOT NULL AUTO_INCREMENT,  
-    'location' VARCHAR(200) NOT NULL ,  
-    'title' VARCHAR(200) NOT NULL ,  
-    'url' VARCHAR(200) NOT NULL ,  
-    'academy' VARCHAR(100) NOT NULL ,  
-    'type' VARCHAR(100) NOT NULL ,  
-    'date_sort' VARCHAR(100) NOT NULL ,  
-     PRIMARY KEY ('aca_id'))  
-    ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_unicode_ci;  
-``
-
+###academic
+###location
+###jobs
 
 ##Academies list
 ###单页型

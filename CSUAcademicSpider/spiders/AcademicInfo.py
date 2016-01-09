@@ -21,7 +21,7 @@ class XinxiSpider(scrapy.Spider):
             contents=response.xpath('string(//div[@class="topCont"])').extract()[0]
             html_contents=re.findall(r'<div class="topCont" id="vsb_content.*?">([\W\w]*?)</div>',response.body_as_unicode())[0]
             title=response.xpath('//h3[contains(@class,"newsTitle")]/text()').extract()[0]
-            date=re.findall(u"间：(.+)\r",contents)[0]
+            date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
             date_tuple=re.findall(u"(\d+)月(\d+)[日号]",date)[0]
             year=response.xpath('//p[@class="newsTO"]/text()').re(r'(\d+)')[0]
             month=date_tuple[0]
@@ -48,20 +48,61 @@ class XinxiSpider(scrapy.Spider):
              })
             yield AcademicInfo
         except Exception,e:
-            pass
-            #print e
+            print e
 
 
 
 class WuliSpider(scrapy.Spider):
     name = "Wuli"
-    allowed_domains = ["http://sise.csu.edu.cn/index/xsbg.htm"]
+    allowed_domains = ["wl.csu.edu.cn"]
     start_urls = (
-        'http://www.http://sise.csu.edu.cn/index/xsbg.htm/',
+        'http://wl.csu.edu.cn/Firspage.aspx?strid=a88f17dd-f1ad-4148-90ce-8e22a464197a&id=20',
     )
 
     def parse(self, response):
-        pass
+        for sel in response.xpath('//div[contains(@id,"divLr")]/table/tr/td/a/@href').extract():
+            url='http://wl.csu.edu.cn/'+sel
+            yield scrapy.Request(url,callback=self.parse_links_content)
+
+
+    def parse_links_content(self,response):
+        try:
+            url=response.url
+            contents=response.xpath('string(//div[@id="divLr"])').extract()[0]
+            html_contents=response.xpath('//div[@id="divLr"]').extract()[0]
+            title=response.xpath('//div[@id="divLr"]/table/tr[1]/td/text()').extract()[0]
+            date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
+            date_tuple=re.findall(u"(\d+)年(\d+)月(\d+)[日号]",date)[0]
+            year=date_tuple[0]
+            month=date_tuple[1]
+            day=date_tuple[2]
+            if(len(month)==1):
+                month='0'+month
+            if(len(day)==1):
+                day='0'+day
+            date_sort=year+month+day
+            location_re_words = re.compile(u"点：(.+)\r")
+            location=location_re_words.search(contents, 0).group(1)
+            type=u"science"
+            academy=u"wuli"
+            AcademicInfo=AcademicInfoItem({
+                'url':url,
+                'title':title,
+                'time' :date,
+                'date_sort':date_sort,
+                'location':location,
+                'academy':academy,
+                'type':type,
+                'html_content':html_contents,
+                'location_id':''
+             })
+            yield AcademicInfo
+        except Exception,e:
+            print e
+
+
+
+
 
 
 class JidianSpider(scrapy.Spider):
