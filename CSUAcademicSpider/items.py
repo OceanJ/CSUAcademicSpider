@@ -16,6 +16,7 @@ class AcademicInfoItem(scrapy.Item):
     time=scrapy.Field()
     date_sort=scrapy.Field()
     location=scrapy.Field()
+    location_id=scrapy.Field()
     academy=scrapy.Field()
     type=scrapy.Field()
     html_content=scrapy.Field()

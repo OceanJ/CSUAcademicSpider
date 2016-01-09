@@ -19,7 +19,7 @@ class XinxiSpider(scrapy.Spider):
         try:
             url=response.url
             contents=response.xpath('string(//div[@class="topCont"])').extract()[0]
-            html_contents=re.findall(r'<div class="topCont" id="vsb_content_2">([\W\w]*?)</div>',response.body_as_unicode())[0]
+            html_contents=re.findall(r'<div class="topCont" id="vsb_content.*?">([\W\w]*?)</div>',response.body_as_unicode())[0]
             title=response.xpath('//h3[contains(@class,"newsTitle")]/text()').extract()[0]
             date=re.findall(u"间：(.+)\r",contents)[0]
             date_tuple=re.findall(u"(\d+)月(\d+)[日号]",date)[0]
@@ -44,6 +44,7 @@ class XinxiSpider(scrapy.Spider):
                 'academy':academy,
                 'type':type,
                 'html_content':html_contents,
+                'location_id':0
              })
             yield AcademicInfo
         except Exception,e:
