@@ -31,7 +31,7 @@ class XinxiSpider(scrapy.Spider):
             if(len(day)==1):
                 day='0'+day
             date_sort=year+month+day
-            location=re.findall(u"点：(.+)\r",date)[0]
+            location=re.findall(u"点：(.+)\r",contents)[0]
             type=u"science"
             academy=u"xinxi"
             AcademicInfo=AcademicInfoItem({
@@ -48,8 +48,6 @@ class XinxiSpider(scrapy.Spider):
             yield AcademicInfo
         except Exception,e:
             print e
-
-
 
 class WuliSpider(scrapy.Spider):
     name = "Wuli"
@@ -98,8 +96,6 @@ class WuliSpider(scrapy.Spider):
         except Exception,e:
             print e
 
-
-
 class JidianSpider(scrapy.Spider):
     name = "Jidian"
     allowed_domains = ["cmee.csu.edu.cn"]
@@ -128,7 +124,7 @@ class JidianSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：\xa0\xa0</span>(.+)</p>",html_contents)[0]
-            type=u"science"
+            type=u"engineering"
             academy=u"jidian"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
@@ -144,7 +140,6 @@ class JidianSpider(scrapy.Spider):
             yield AcademicInfo
         except Exception,e:
             print e
-
 
 class GongguanSpider(scrapy.Spider):
     name = "Gongguan"
@@ -174,7 +169,7 @@ class GongguanSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：(.+)[内\r]",contents)[0]
-            type=u"science"
+            type=u"social"
             academy=u"gongguan"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
@@ -190,7 +185,6 @@ class GongguanSpider(scrapy.Spider):
             yield AcademicInfo
         except Exception,e:
             print e
-
 
 class ShutongSpider(scrapy.Spider):
     name = "Shutong"
@@ -240,7 +234,6 @@ class ShutongSpider(scrapy.Spider):
         except Exception,e:
             print e
 
-
 class TumuSpider(scrapy.Spider):
     name = "Tumu"
     allowed_domains = ["civil.csu.edu.cn"]
@@ -269,7 +262,7 @@ class TumuSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：\xa0\xa0</span>(.+)</p>",html_contents)[0]
-            type=u"science"
+            type=u"engineering"
             academy=u"tumu"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
@@ -316,7 +309,7 @@ class YejinSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：(.+)\r",contents)[0]
-            type=u"science"
+            type=u"engineering"
             academy=u"yejin"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
@@ -335,21 +328,48 @@ class YejinSpider(scrapy.Spider):
 
 class GongweiSpider(scrapy.Spider):
     name = "Gongwei"
-    allowed_domains = ["http://sise.csu.edu.cn/index/xsbg.htm"]
+    allowed_domains = ["sph.csu.edu.cn"]
     start_urls = (
-        'http://www.http://sise.csu.edu.cn/index/xsbg.htm/',
+        'http://sph.csu.edu.cn/index/xsbg.htm',
     )
 
-    def parse(self, response):
-        pass
+    def parse(self,response):
+        for sel in response.xpath("//div[@class='newslistdiv']/ul/li/a/@href").extract():
+            url='http://sph.csu.edu.cn/info'+re.findall(u"info(.*)",sel)[0]
+            yield scrapy.Request(url,callback=self.parse_links_content)
 
-class YaoSpider(scrapy.Spider):
-    name = "Yao"
-    allowed_domains = ["http://sise.csu.edu.cn/index/xsbg.htm"]
-    start_urls = (
-        'http://www.http://sise.csu.edu.cn/index/xsbg.htm/',
-    )
+    def parse_links_content(self,response):
+        try:
+            url=response.url
+            contents=response.xpath('string(//div[@style="margin-top:10px"])').extract()[0]
+            html_contents=response.xpath('//div[@style="margin-top:10px"]').extract()[0]
+            title=response.xpath("//h3[@align='center']/text()").extract()[0]
+            date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
+            date_tuple=re.findall(u"(\d+)月(\d+)[日号]",date)[0]
+            year=response.xpath("//div[@align='center']/text()").re(u'(\d+)年')[0]
+            month=date_tuple[0]
+            day=date_tuple[1]
+            if(len(month)==1):
+                month='0'+month
+            if(len(day)==1):
+                day='0'+day
+            date_sort=year+month+day
+            location=re.findall(u"点：(.+)\r",contents)[0]
+            type=u"medical"
+            academy=u"gongwei"
+            AcademicInfo=AcademicInfoItem({
+                'url':url,
+                'title':title,
+                'time' :date,
+                'date_sort':date_sort,
+                'location':location,
+                'academy':academy,
+                'type':type,
+                'html_content':html_contents,
+                'location_id':0
+             })
+            yield AcademicInfo
+        except Exception,e:
+            print e
 
-    def parse(self, response):
-        pass
 
