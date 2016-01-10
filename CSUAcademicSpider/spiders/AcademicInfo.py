@@ -288,14 +288,14 @@ class TumuSpider(scrapy.Spider):
 
 class YejinSpider(scrapy.Spider):
     name = "Yejin"
-    allowed_domains = ["http://sise.csu.edu.cn/index/xsbg.htm"]
+    allowed_domains = ["smse.csu.edu.cn"]
     start_urls = (
-        'http://www.http://sise.csu.edu.cn/index/xsbg.htm/',
+        'http://smse.csu.edu.cn/Firspage.aspx?strId=8d553b06-83bd-4273-9942-477ab75616c9&id=0',
     )
 
     def parse(self, response):
         for sel in response.xpath('//div[contains(@id,"divLr")]/table/tr/td/a/@href').extract():
-            url='http://wl.csu.edu.cn/'+sel
+            url='http://smse.csu.edu.cn/'+sel
             yield scrapy.Request(url,callback=self.parse_links_content)
 
 
@@ -305,11 +305,11 @@ class YejinSpider(scrapy.Spider):
             contents=response.xpath('string(//div[@id="divLr"])').extract()[0]
             html_contents=response.xpath('//div[@id="divLr"]').extract()[0]
             title=response.xpath('//div[@id="divLr"]/table/tr[1]/td/text()').extract()[0]
-            date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
-            date_tuple=re.findall(u"(\d+)年(\d+)月(\d+)[日号]",date)[0]
-            year=date_tuple[0]
-            month=date_tuple[1]
-            day=date_tuple[2]
+            date=re.findall(u"[间期]：([\W\w]+?)\r",contents)[0]
+            date_tuple=re.findall(u"(\d+)月(\d+)[日号]",date)[0]
+            year=re.findall(u"(\d+)-\d+-\d+\xa0",html_contents)[0]
+            month=date_tuple[0]
+            day=date_tuple[1]
             if(len(month)==1):
                 month='0'+month
             if(len(day)==1):
@@ -317,7 +317,7 @@ class YejinSpider(scrapy.Spider):
             date_sort=year+month+day
             location=re.findall(u"点：(.+)\r",contents)[0]
             type=u"science"
-            academy=u"wuli"
+            academy=u"yejin"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,

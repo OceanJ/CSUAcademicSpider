@@ -4,7 +4,6 @@
     <list default="true" id="1988354b-c622-4e01-8b3c-1387ae60d49c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CSUAcademicSpider/spiders/AcademicInfo.py" afterPath="$PROJECT_DIR$/CSUAcademicSpider/spiders/AcademicInfo.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <ignored path="CSUAcademicSpider.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,8 +28,8 @@
       <file leaf-file-name="AcademicInfo.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CSUAcademicSpider/spiders/AcademicInfo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3137255">
-              <caret line="297" column="24" selection-start-line="296" selection-start-column="95" selection-end-line="297" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.664488">
+              <caret line="297" column="45" selection-start-line="297" selection-start-column="45" selection-end-line="297" selection-end-column="45" />
               <folding>
                 <element signature="e#24#33#0" expanded="true" />
                 <element signature="e#140#2019#0" expanded="false" />
@@ -899,8 +898,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CSUAcademicSpider/spiders/AcademicInfo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3137255">
-          <caret line="297" column="24" selection-start-line="296" selection-start-column="95" selection-end-line="297" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.664488">
+          <caret line="297" column="45" selection-start-line="297" selection-start-column="45" selection-end-line="297" selection-end-column="45" />
           <folding>
             <element signature="e#24#33#0" expanded="true" />
             <element signature="e#140#2019#0" expanded="false" />
