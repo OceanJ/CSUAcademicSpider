@@ -16,6 +16,36 @@ This is a spider basd on [Scrapy](https://github.com/scrapy/scrapy) to crawl som
 ##Create Table SQL
 ###academic
 ###location
+``sql
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `location`
+--
+
+CREATE TABLE IF NOT EXISTS `location` (
+  `location_id` int(10) unsigned NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `longitude` double NOT NULL,
+  `latitude` double NOT NULL,
+  `match_string` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;# MySQL 返回的查询结果为空 (即零行)。
+--
+-- 转存表中的数据 `location`
+--
+
+INSERT INTO `location` (`location_id`, `title`, `longitude`, `latitude`, `match_string`) VALUES
+(1, '本部民主楼', 112.936979, 28.176791, '民主楼-民主楼小礼堂-民主'),
+(2, '本部计算机楼', 112.93765, 28.177171, '计算机楼-计算机'),
+(3, '铁道世纪楼', 112.997042, 28.145763, '世纪楼-国际报告厅-铁道校区世纪楼C座'),
+(4, '本部科教楼', 112.934933, 28.176685, '科教楼-科北-科南'),
+(5, '新校中南讲堂', 112.950506, 28.155421, '中南讲堂'),
+(6, '本部立言厅', 112.935158, 28.179631, '立言厅-立言'),
+(7, '本部升华楼', 112.935851, 28.176783, '升华楼-升华后楼-升华'),
+(8, '本部物理楼', 112.936878, 28.173613, '物理楼'),
+(9, '南校区双超所', 112.944061, 28.168653, '超微超快所-双超所'),
+(10, '新校区物电院', 112.952204, 28.153048, '物理与电子学院-物电院');# 影响了 10 行。
+``
 ###jobs
 
 ##Academies list
