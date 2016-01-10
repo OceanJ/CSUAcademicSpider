@@ -1,7 +1,7 @@
 #CSUAcademicSpider
-This is a spider basd on [Scrapy](https://github.com/scrapy/scrapy) to crawl some academic informations from  academies' offical websites.
+This is a spider basd on [Scrapy](https://github.com/scrapy/scrapy) to crawl some academic informations from  academies' offical websites.  
 这是一个基于[Scrapy](https://github.com/scrapy/scrapy)框架的爬虫，主要是为了一个基于地理位置信息匹配相关数据的Andriod端APP做数据收集处理工作。  
-此爬虫具体用于爬取中南几个大院的学术会议、讲座信息（时间，地点，类型，学院名等），处理后保存到了MySql数据库。
+爬虫具体用于爬取中南几个大院的学术会议、讲座信息（时间，地点，类型，学院名等），处理后保存到了MySql数据库。
 
 ##Academic Item Definition
 - `url`:爬取页面地址
