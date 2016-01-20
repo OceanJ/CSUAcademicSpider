@@ -6,7 +6,6 @@
 # See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import MySQLdb
-
 db=MySQLdb.connect("localhost","spider","xyz","csuspider")
 cursor = db.cursor()
 db.set_character_set('utf8')
@@ -19,11 +18,6 @@ location_tuples=cursor.fetchall()
 
 class CsuacademicspiderPipeline(object):
     def process_item(self, item, spider):
-        item['html_content']=item['html_content'].replace(u'&', u'&amp;')
-        item['html_content']=item['html_content'].replace(u'<',u'&lt;')
-        item['html_content']=item['html_content'].replace(u'>',u'&gt;')
-        item['html_content']=item['html_content'].replace(u"'",u'&apos;')
-        item['html_content']=item['html_content'].replace(u'"',u'&quot;')
         location_id=0L
         for location_tuple in location_tuples:
             for match in location_tuple[1].decode('utf8').split('-'):

@@ -19,7 +19,7 @@ class XinxiSpider(scrapy.Spider):
         try:
             url=response.url
             contents=response.xpath('string(//div[@class="topCont"])').extract()[0]
-            html_contents=re.findall(r'<div class="topCont" id="vsb_content.*?">([\W\w]*?)</div>',response.body_as_unicode())[0]
+            #html_contents=re.findall(r'<div class="topCont" id="vsb_content.*?">([\W\w]*?)</div>',response.body_as_unicode())[0]
             title=response.xpath('//h3[contains(@class,"newsTitle")]/text()').extract()[0]
             date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
             date_tuple=re.findall(u"(\d+)月(\d+)[日号]",date)[0]
@@ -32,8 +32,8 @@ class XinxiSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：(.+)\r",contents)[0]
-            type=u"science"
-            academy=u"xinxi"
+            type=u"科学技术类"
+            academy=u"信息院"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,
@@ -42,7 +42,7 @@ class XinxiSpider(scrapy.Spider):
                 'location':location,
                 'academy':academy,
                 'type':type,
-                'html_content':html_contents,
+                'html_content':contents,
                 'location_id':0
              })
             yield AcademicInfo
@@ -66,7 +66,7 @@ class WuliSpider(scrapy.Spider):
         try:
             url=response.url
             contents=response.xpath('string(//div[@id="divLr"])').extract()[0]
-            html_contents=response.xpath('//div[@id="divLr"]').extract()[0]
+            #html_contents=response.xpath('//div[@id="divLr"]').extract()[0]
             title=response.xpath('//div[@id="divLr"]/table/tr[1]/td/text()').extract()[0]
             date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
             date_tuple=re.findall(u"(\d+)年(\d+)月(\d+)[日号]",date)[0]
@@ -79,8 +79,8 @@ class WuliSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：(.+)\r",contents)[0]
-            type=u"science"
-            academy=u"wuli"
+            type=u"科学技术类"
+            academy=u"物理院"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,
@@ -89,7 +89,7 @@ class WuliSpider(scrapy.Spider):
                 'location':location,
                 'academy':academy,
                 'type':type,
-                'html_content':html_contents,
+                'html_content':contents,
                 'location_id':''
              })
             yield AcademicInfo
@@ -111,6 +111,7 @@ class JidianSpider(scrapy.Spider):
     def parse_links_content(self,response):
         try:
             url=response.url
+            contents=response.xpath('string(//div[@id="divcontent"])').extract()[0]
             html_contents=response.xpath('//div[@id="divcontent"]').extract()[0]
             title=re.findall(u"报告题目：</span>(.+?)<br>",html_contents)[0]
             date=re.findall(u"间：\xa0\xa0</span>(.+?)<br>",html_contents)[0]
@@ -124,8 +125,8 @@ class JidianSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：\xa0\xa0</span>(.+)</p>",html_contents)[0]
-            type=u"engineering"
-            academy=u"jidian"
+            type=u"工程技术类"
+            academy=u"机电院"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,
@@ -134,7 +135,7 @@ class JidianSpider(scrapy.Spider):
                 'location':location,
                 'academy':academy,
                 'type':type,
-                'html_content':html_contents,
+                'html_content':contents,
                 'location_id':''
              })
             yield AcademicInfo
@@ -155,8 +156,8 @@ class GongguanSpider(scrapy.Spider):
     def parse_links_content(self,response):
         try:
             url=response.url
-            contents=response.xpath("string(//table[contains(@align,'center')])").extract()[0]
-            html_contents=response.xpath("//table[contains(@align,'center')]").extract()[0]
+            contents=response.xpath("string(//span[@class='show_content'])").extract()[0]
+            #html_contents=response.xpath("//table[contains(@align,'center')]").extract()[0]
             title=response.xpath("//div[contains(@class,'show_title STYLE20 STYLE31')]/strong/text()").extract()[0]
             date=re.findall(u"间：([\W\w]+?)[地\r]",contents)[0]
             date_tuple=re.findall(u"(\d+)年(\d+)月(\d+)[日号]",date)[0]
@@ -169,8 +170,8 @@ class GongguanSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：(.+)[内\r]",contents)[0]
-            type=u"social"
-            academy=u"gongguan"
+            type=u"社科类"
+            academy=u"公管院"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,
@@ -179,7 +180,7 @@ class GongguanSpider(scrapy.Spider):
                 'location':location,
                 'academy':academy,
                 'type':type,
-                'html_content':html_contents,
+                'html_content':contents,
                 'location_id':''
              })
             yield AcademicInfo
@@ -202,7 +203,7 @@ class ShutongSpider(scrapy.Spider):
         try:
             url=response.url
             contents=response.xpath("string(//div[contains(@id,'vsb_content_4')])").extract()[0]
-            html_contents=response.xpath("//div[contains(@id,'vsb_content_4')]").extract()[0]
+            #html_contents=response.xpath("//div[contains(@id,'vsb_content_4')]").extract()[0]
             title=re.findall(u"目[:：]([\W\w]+?)\r",contents)[0]
             date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
             date_tuple=re.findall(u"(\d+)年(.+)月(\d+)[日号]",date)[0]
@@ -217,8 +218,8 @@ class ShutongSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：(.+)\r",contents)[0]
-            type=u"science"
-            academy=u"shuxue"
+            type=u"科学技术类"
+            academy=u"数学院"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,
@@ -227,7 +228,7 @@ class ShutongSpider(scrapy.Spider):
                 'location':location,
                 'academy':academy,
                 'type':type,
-                'html_content':html_contents,
+                'html_content':contents,
                 'location_id':''
              })
             yield AcademicInfo
@@ -249,6 +250,7 @@ class TumuSpider(scrapy.Spider):
     def parse_links_content(self,response):
         try:
             url=response.url
+            contents=response.xpath('string(//div[@id="divcontent"])').extract()[0]
             html_contents=response.xpath('//div[@id="divcontent"]').extract()[0]
             title=re.findall(u"报告题目：</span>(.+?)<br>",html_contents)[0]
             date=re.findall(u"间：\xa0\xa0</span>(.+?)<br>",html_contents)[0]
@@ -262,8 +264,8 @@ class TumuSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：\xa0\xa0</span>(.+)</p>",html_contents)[0]
-            type=u"engineering"
-            academy=u"tumu"
+            type=u"工程技术类"
+            academy=u"土木院"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,
@@ -272,7 +274,7 @@ class TumuSpider(scrapy.Spider):
                 'location':location,
                 'academy':academy,
                 'type':type,
-                'html_content':html_contents,
+                'html_content':contents,
                 'location_id':''
              })
             yield AcademicInfo
@@ -309,8 +311,8 @@ class YejinSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：(.+)\r",contents)[0]
-            type=u"engineering"
-            academy=u"yejin"
+            type=u"工程技术类"
+            academy=u"冶金院"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,
@@ -319,7 +321,7 @@ class YejinSpider(scrapy.Spider):
                 'location':location,
                 'academy':academy,
                 'type':type,
-                'html_content':html_contents,
+                'html_content':contents,
                 'location_id':''
              })
             yield AcademicInfo
@@ -342,7 +344,7 @@ class GongweiSpider(scrapy.Spider):
         try:
             url=response.url
             contents=response.xpath('string(//div[@style="margin-top:10px"])').extract()[0]
-            html_contents=response.xpath('//div[@style="margin-top:10px"]').extract()[0]
+            #html_contents=response.xpath('//div[@style="margin-top:10px"]').extract()[0]
             title=response.xpath("//h3[@align='center']/text()").extract()[0]
             date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
             date_tuple=re.findall(u"(\d+)月(\d+)[日号]",date)[0]
@@ -355,8 +357,8 @@ class GongweiSpider(scrapy.Spider):
                 day='0'+day
             date_sort=year+month+day
             location=re.findall(u"点：(.+)\r",contents)[0]
-            type=u"medical"
-            academy=u"gongwei"
+            type=u"医学类"
+            academy=u"公共卫生学院"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,
@@ -365,7 +367,7 @@ class GongweiSpider(scrapy.Spider):
                 'location':location,
                 'academy':academy,
                 'type':type,
-                'html_content':html_contents,
+                'html_content':contents,
                 'location_id':0
              })
             yield AcademicInfo

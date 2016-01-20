@@ -1,15 +1,14 @@
 #!/bin/sh
-rm -rf /var/www/html/csuinfo/*
-rm -rf output_xml/*
+#rm -rf /var/www/html/csuinfo/*
+rm -rf output/*
 
-scrapy crawl Xinxi -o output_xml/xinxi.xml
-scrapy crawl Wuli -o output_xml/wuli.xml
-scrapy crawl Jidian -o output_xml/jidian.xml
-scrapy crawl Gongguan -o output_xml/gongguan.xml
-scrapy crawl Shutong -o output_xml/shutong.xml
-scrapy crawl Tumu -o output_xml/tumu.xml
-scrapy crawl Yejin -o output_xml/yejin.xml
-scrapy crawl Gongwei -o output_xml/gongwei.xml
+scrapy crawl Xinxi -o output/xinxi.json
+scrapy crawl Wuli -o output/wuli.json
+scrapy crawl Jidian -o output/jidian.json
+scrapy crawl Gongguan -o output/gongguan.json
+scrapy crawl Shutong -o output/shutong.json
+scrapy crawl Tumu -o output/tumu.json
+scrapy crawl Yejin -o output/yejin.json
+scrapy crawl Gongwei -o output/gongwei.json
 
-cp output_xml/* /var/www/html/csuinfo/
-
+#cp output_xml/* /var/www/html/csuinfo/
