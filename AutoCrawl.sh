@@ -1,14 +1,15 @@
 #!/bin/sh
 #rm -rf /var/www/html/csuinfo/*
+cd ~/workspace/CSUAcademicSpider/
 rm -rf output/*
 
-scrapy crawl Xinxi -o output/xinxi.json
-scrapy crawl Wuli -o output/wuli.json
-scrapy crawl Jidian -o output/jidian.json
-scrapy crawl Gongguan -o output/gongguan.json
-scrapy crawl Shutong -o output/shutong.json
-scrapy crawl Tumu -o output/tumu.json
-scrapy crawl Yejin -o output/yejin.json
-scrapy crawl Gongwei -o output/gongwei.json
+scrapy crawl Xinxi
+scrapy crawl Wuli
+scrapy crawl Jidian
+scrapy crawl Gongguan
+scrapy crawl Shutong
+scrapy crawl Tumu -o
+scrapy crawl Yejin -o
+scrapy crawl Gongwei -o
 
 #cp output_xml/* /var/www/html/csuinfo/

@@ -65,11 +65,10 @@ class WuliSpider(scrapy.Spider):
     def parse_links_content(self,response):
         try:
             url=response.url
-            contents=response.xpath('string(//div[@id="divLr"])').extract()[0]
-            #html_contents=response.xpath('//div[@id="divLr"]').extract()[0]
+            contents=response.xpath('string(//div[@id="divLr"]/table/tr[8])').extract()[0]
             title=response.xpath('//div[@id="divLr"]/table/tr[1]/td/text()').extract()[0]
-            date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
-            date_tuple=re.findall(u"(\d+)年(\d+)月(\d+)[日号]",date)[0]
+            date=re.findall(u"间[：:]\s*([\W\w]+?)\r",contents)[0]
+            date_tuple=re.findall(u"\s*(\d+)\s*年\s*(\d+)\s*月\s*(\d+)\s*[日号]",date)[0]
             year=date_tuple[0]
             month=date_tuple[1]
             day=date_tuple[2]
@@ -78,7 +77,7 @@ class WuliSpider(scrapy.Spider):
             if(len(day)==1):
                 day='0'+day
             date_sort=year+month+day
-            location=re.findall(u"点：(.+)\r",contents)[0]
+            location=re.findall(u"点[：:]\s*(.+)\r",contents)[0]
             type=u"科学技术类"
             academy=u"物理院"
             AcademicInfo=AcademicInfoItem({
@@ -111,7 +110,8 @@ class JidianSpider(scrapy.Spider):
     def parse_links_content(self,response):
         try:
             url=response.url
-            contents=response.xpath('string(//div[@id="divcontent"])').extract()[0]
+            contents=response.xpath('string(//div[@id="divcontent"]/p)').extract()[0]
+            details=response.xpath('string(//div[@class="ContentDetails"])').extract()[0]
             html_contents=response.xpath('//div[@id="divcontent"]').extract()[0]
             title=re.findall(u"报告题目：</span>(.+?)<br>",html_contents)[0]
             date=re.findall(u"间：\xa0\xa0</span>(.+?)<br>",html_contents)[0]
@@ -196,14 +196,13 @@ class ShutongSpider(scrapy.Spider):
 
     def parse(self, response):
         for sel in response.xpath("//a[contains(@target,'_blank')]/@href").extract():
-            url="http://math.csu.edu.cn/"+sel
+            url="http://math.csu.edu.cn"+sel
             yield scrapy.Request(url,callback=self.parse_links_content)
 
     def parse_links_content(self,response):
         try:
             url=response.url
             contents=response.xpath("string(//div[contains(@id,'vsb_content_4')])").extract()[0]
-            #html_contents=response.xpath("//div[contains(@id,'vsb_content_4')]").extract()[0]
             title=re.findall(u"目[:：]([\W\w]+?)\r",contents)[0]
             date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
             date_tuple=re.findall(u"(\d+)年(.+)月(\d+)[日号]",date)[0]
@@ -217,9 +216,9 @@ class ShutongSpider(scrapy.Spider):
             if(len(day)==1):
                 day='0'+day
             date_sort=year+month+day
-            location=re.findall(u"点：(.+)\r",contents)[0]
+            location=re.findall(u"点：(.+)\r?",contents)[0]
             type=u"科学技术类"
-            academy=u"数学院"
+            academy=u"数统院"
             AcademicInfo=AcademicInfoItem({
                 'url':url,
                 'title':title,
@@ -250,7 +249,8 @@ class TumuSpider(scrapy.Spider):
     def parse_links_content(self,response):
         try:
             url=response.url
-            contents=response.xpath('string(//div[@id="divcontent"])').extract()[0]
+            contents=response.xpath('string(//div[@id="divcontent"]/p)').extract()[0]
+            details=response.xpath('string(//div[@class="ContentDetails"])').extract()[0]
             html_contents=response.xpath('//div[@id="divcontent"]').extract()[0]
             title=re.findall(u"报告题目：</span>(.+?)<br>",html_contents)[0]
             date=re.findall(u"间：\xa0\xa0</span>(.+?)<br>",html_contents)[0]
@@ -274,7 +274,7 @@ class TumuSpider(scrapy.Spider):
                 'location':location,
                 'academy':academy,
                 'type':type,
-                'html_content':contents,
+                'html_content':contents+details,
                 'location_id':''
              })
             yield AcademicInfo
@@ -297,7 +297,7 @@ class YejinSpider(scrapy.Spider):
     def parse_links_content(self,response):
         try:
             url=response.url
-            contents=response.xpath('string(//div[@id="divLr"])').extract()[0]
+            contents=response.xpath('string(//div[@id="divLr"]/table/tr[6]/td)').extract()[0]
             html_contents=response.xpath('//div[@id="divLr"]').extract()[0]
             title=response.xpath('//div[@id="divLr"]/table/tr[1]/td/text()').extract()[0]
             date=re.findall(u"[间期]：([\W\w]+?)\r",contents)[0]
@@ -343,8 +343,7 @@ class GongweiSpider(scrapy.Spider):
     def parse_links_content(self,response):
         try:
             url=response.url
-            contents=response.xpath('string(//div[@style="margin-top:10px"])').extract()[0]
-            #html_contents=response.xpath('//div[@style="margin-top:10px"]').extract()[0]
+            contents=response.xpath('string(//div[@id="textcontent"])').extract()[0]
             title=response.xpath("//h3[@align='center']/text()").extract()[0]
             date=re.findall(u"间：([\W\w]+?)\r",contents)[0]
             date_tuple=re.findall(u"(\d+)月(\d+)[日号]",date)[0]
